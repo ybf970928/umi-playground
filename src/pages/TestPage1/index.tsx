@@ -10,8 +10,8 @@ type UserInfo = {
 const TestPage1: React.FC<UserInfo> = ({ userInfo }) => {
     return (
         <PageContainer>
-            {/* <p>姓名: {userInfo?.name}</p>
-            <p>身份证: {userInfo?.userid}</p> */}
+            <p>姓名: {userInfo?.userID}</p>
+            <p>身份证: {userInfo?.userName}</p>
         </PageContainer>
     )
 }

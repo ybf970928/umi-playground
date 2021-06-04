@@ -9,7 +9,7 @@ import type {
   Settings,
 } from '@ant-design/pro-layout';
 import ProLayout from '@ant-design/pro-layout';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import type { Dispatch } from 'umi';
 import { Link, connect, history } from 'umi';
 // import { Result, Button } from 'antd';
@@ -18,6 +18,7 @@ import RightContent from '@/components/GlobalHeader/RightContent';
 import type { ConnectState } from '@/models/connect';
 // import { getMatchMenu } from '@umijs/route-utils';
 import logo from '../assets/logo.png';
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 // const noMatch = (
 //   <Result
 //     status={403}
@@ -54,7 +55,7 @@ const menuDataRender = (menuList: MenuDataItem[]): MenuDataItem[] =>
 
 const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
   const {
-    dispatch,
+    // dispatch,
     children,
     settings,
     location = {
@@ -63,15 +64,16 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
   } = props;
 
   const menuDataRef = useRef<MenuDataItem[]>([]);
+  const [collapsed, setCollapsed] = useState(false);
 
-  const handleMenuCollapse = (payload: boolean): void => {
-    if (dispatch) {
-      dispatch({
-        type: 'global/changeLayoutCollapsed',
-        payload,
-      });
-    }
-  };
+  // const handleMenuCollapse = (payload: boolean): void => {
+  //   if (dispatch) {
+  //     dispatch({
+  //       type: 'global/changeLayoutCollapsed',
+  //       payload,
+  //     });
+  //   }
+  // };
   // get children authority
   // const authorized = useMemo(
   //   () =>
@@ -82,18 +84,31 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
   // );
   return (
     <ProLayout
-      logo={logo}
       // formatMessage={formatMessage}
       {...props}
       {...settings}
-      // menuHeaderRender={(logo) => {
-      //   return (
-      //     <div id="customize_menu_header" style={{width: '100%'}}>
-      //       {logo}
-      //     </div>
-      //   )
-      // }}
-      onCollapse={handleMenuCollapse}
+      menuHeaderRender={() => {
+        return (
+          <div id="customize_menu_header" style={{width: '100%'}}>
+            <img src={logo} alt="logo"/>
+          </div>
+        )
+      }}
+      collapsedButtonRender={false}
+      collapsed={collapsed}
+      headerContentRender={() => {
+        return (
+          <div
+            onClick={() => setCollapsed(!collapsed)}
+            style={{
+              cursor: "pointer",
+              fontSize: "16px"
+            }}
+          >
+            {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+          </div>
+        );
+      }}
       onMenuHeaderClick={() => history.push('/')}
       menuItemRender={(menuItemProps, defaultDom) => {
         if (
@@ -138,7 +153,6 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
   );
 };
 
-export default connect(({ global, settings }: ConnectState) => ({
-  collapsed: global.collapsed,
+export default connect(({ settings }: ConnectState) => ({
   settings,
 }))(BasicLayout);
