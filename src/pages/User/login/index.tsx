@@ -15,6 +15,7 @@ import styles from './index.less';
 export type LoginProps = {
   dispatch: Dispatch;
   userLogin: StateType;
+  submitting?: boolean
 };
 
 const LoginMessage: React.FC<{
@@ -31,9 +32,10 @@ const LoginMessage: React.FC<{
 );
 
 const Login: React.FC<LoginProps> = (props) => {
-  const { userLogin = {} } = props;
+  
+  const { userLogin = {}, submitting } = props;
   const { code, message } = userLogin;
-
+  
   const handleSubmit = (values: LoginParamsType) => {
     const { dispatch } = props;
     dispatch({
@@ -73,8 +75,9 @@ const Login: React.FC<LoginProps> = (props) => {
         />
       </Form.Item>
       <Form.Item>
-        <Button type="primary" htmlType="submit" style={{width: '100%'}}>
-          提交
+        <Button type="primary" htmlType="submit" style={{width: '100%'}}
+        loading={submitting}>
+          登陆
         </Button>
       </Form.Item>
     </Form>
@@ -82,6 +85,7 @@ const Login: React.FC<LoginProps> = (props) => {
   );
 };
 
-export default connect(({ login }: ConnectState) => ({
+export default connect(({ login, loading }: ConnectState) => ({
   userLogin: login,
+  submitting: loading.effects['login/login'],
 }))(Login);

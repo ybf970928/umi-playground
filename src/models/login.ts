@@ -41,6 +41,7 @@ const Model: LoginModelType = {
         type: 'user/saveCurrentUser',
         payload: response.data.user,
       });
+      
       yield put({
         type: 'changeLoginStatus',
         payload: response
