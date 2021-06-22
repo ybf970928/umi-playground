@@ -4,11 +4,10 @@ import { queryCurrentUserInfo } from '@/services/user'
 // import { queryCurrent, query as queryUsers } from '@/services/user';
 
 export type CurrentUser = {
-  avatar?: string,
-  id?: number | string,
+  icon?: string,
+  nickname?: string,
   mobilePhone?: number | string,
-  userID?: number | string,
-  userName?: string
+  username?: string,
 };
 
 export type UserModelState = {
@@ -17,7 +16,7 @@ export type UserModelState = {
 
 export type UserModelType = {
   namespace: 'user';
-  state: UserModelState;
+  state: UserModelState ;
   effects: {
     // fetch: Effect;
     fetchCurrent: Effect;

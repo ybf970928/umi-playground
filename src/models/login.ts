@@ -6,12 +6,12 @@ import { getPageQuery } from '@/utils/utils';
 import { message } from 'antd';
 // import { codeMessage } from '@/utils/request';
 import { removeToken, setToken } from '@/utils/auth';
-import { codeMessage } from '@/utils/request';
 
 export type StateType = {
   code?: 0 | 1 | 2;
   data?: any;
-  message?: number | string;
+  message?: string;
+  success?: boolean
 };
 
 
@@ -23,23 +23,20 @@ export type LoginModelType = {
     logout: Effect;
   };
   reducers: {
-    // saveCurrentUser: Reducer<UserModelState>;
     changeLoginStatus: Reducer<StateType>;
   };
 };
 
 const Model: LoginModelType = {
   namespace: 'login',
-  state: {
-    code: undefined,
-  },
+  state: {},
 
   effects: {
     *login({ payload }, { call, put }) {
       const response = yield call(accountLogin, payload);
       yield put({
         type: 'user/saveCurrentUser',
-        payload: response.data.user,
+        payload: response.data.userInfo,
       });
       
       yield put({
@@ -47,7 +44,7 @@ const Model: LoginModelType = {
         payload: response
       })
       // Login successfully
-      if (response.code === 1) {
+      if (response.success) {
         setToken(response.data.token)
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
@@ -93,7 +90,8 @@ const Model: LoginModelType = {
         ...state,
         code:payload.code,
         data: payload.data,
-        message: codeMessage[payload.message],
+        message: payload.message,
+        success: payload.success
       };
     },
   },

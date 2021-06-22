@@ -14,15 +14,15 @@ type SecurityLayoutProps = {
 
 class SecurityLayout extends React.Component<SecurityLayoutProps> {
 
-  componentDidMount() {
-    const { dispatch } = this.props;
-    if (dispatch) {
-      dispatch({
-        type: 'user/fetchCurrent',
-        payload: {a: 1}
-      });
-    }
-  }
+  // componentDidMount() {
+  //   const { dispatch } = this.props;
+  //   if (dispatch) {
+  //     dispatch({
+  //       type: 'user/fetchCurrent',
+  //       payload: {a: 1}
+  //     });
+  //   }
+  // }
 
   render() {
     const { children } = this.props;

@@ -7,11 +7,26 @@ import { PageContainer } from '@ant-design/pro-layout';
 type UserInfo = {
     userInfo?: CurrentUser;
   }
-const TestPage1: React.FC<UserInfo> = ({ userInfo }) => {
+
+ const Test1: React.FC = (props) => {
+     return (
+         <>
+         <div>我是父组件</div>
+         {props.children}
+         </>
+     )
+ } 
+ const Test2: React.FC = () => {
+    return (
+        <div>我是子组件</div>
+    )
+} 
+const TestPage1: React.FC<UserInfo> = () => {
     return (
         <PageContainer>
-            <p>姓名: {userInfo?.userID}</p>
-            <p>身份证: {userInfo?.userName}</p>
+            <Test1>
+                <Test2 />
+            </Test1>
         </PageContainer>
     )
 }
