@@ -8,11 +8,16 @@
  */
 export default {
   dev: {
-    '/config/': {
-      target: 'http://192.168.1.22:8100',
+    '/lejuAdmin/': {
+      target: 'http://leju.bufan.cloud',
       changeOrigin: true,
       pathRewrite: { '^': '' },
     },
+    '/lejuClient/': {
+      target: 'http://leju.bufan.cloud',
+      changeOrigin: true,
+      pathRewrite: { '^': '' },
+    }
   },
   test: {
     '/api/': {

@@ -6,7 +6,7 @@ export type LoginParamsType = {
 };
 
 export async function accountLogin(params: LoginParamsType) {
-  return request('/config/login/login', {
+  return request('/lejuAdmin/index/login', {
     method: 'POST',
     data: params,
   });

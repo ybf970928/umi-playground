@@ -56,7 +56,7 @@ const request = extend({
   // headers: {
   //   'Token': getToken() as string
   // },
-  timeout: 1000,
+  timeout: 6000,
   errorHandler, // default error handling
   credentials: 'include', // Does the default request bring cookies
 });

@@ -34,7 +34,7 @@ const LoginMessage: React.FC<{
 const Login: React.FC<LoginProps> = (props) => {
   
   const { userLogin = {}, submitting } = props;
-  const { code, message } = userLogin;
+  const { success, message } = userLogin;
   
   const handleSubmit = (values: LoginParamsType) => {
     const { dispatch } = props;
@@ -52,9 +52,9 @@ const Login: React.FC<LoginProps> = (props) => {
         onFinish={handleSubmit}
         size='large'
       >
-        {code === 0 && (
+        { typeof success === 'boolean' && !success  && (
           <LoginMessage
-            content={String(message)}
+            content={ message as string}
           />
         )}  
       <Form.Item
