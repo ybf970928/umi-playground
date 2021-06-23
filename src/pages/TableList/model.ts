@@ -1,4 +1,4 @@
-import type { Effect, Reducer } from 'umi';
+import type { Effect, Reducer } from 'umi'
 import { articleList } from '@/services/productArticle'
 import { addArticle, updateArticle, deleteArticle } from '@/services/productArticle'
 import { message } from 'antd'
@@ -37,48 +37,48 @@ export type ArticleModelType = {
     };
   };
 
-  const ArticleModel: ArticleModelType = {
-      namespace: 'Article',
-      state: {
+const ArticleModel: ArticleModelType = {
+    namespace: 'Article',
+    state: {
         articleList: [],
         total: 0
-      },
-      effects: {
-        *fetchArticleList({ payload },{ call, put }){
-            const { success, data } = yield call(articleList, payload);
-            if (success){
+    },
+    effects: {
+        *fetchArticleList({ payload },{ call, put }) {
+            const { success, data } = yield call(articleList, payload)
+            if (success) {
                 yield put({
                     type: 'setArticleList',
                     payload: data
-                  })
+                })
             }
-          },
-          *saveArticle({ payload },{ call }) {
+        },
+        *saveArticle({ payload },{ call }) {
             const { article, callback } = payload
-            const { success, message: errMsg } = yield call(article.id ? updateArticle : addArticle , article);
-            if (success){
-              message.success(errMsg)
-              if(callback && typeof callback === 'function'){
-                callback();
-              }
+            const { success, message: errMsg } = yield call(article.id ? updateArticle : addArticle , article)
+            if (success) {
+                message.success(errMsg)
+                if(callback && typeof callback === 'function') {
+                    callback()
+                }
             }else{
-              message.error(errMsg)
+                message.error(errMsg)
             }
-          },
-          *delArticle({ payload },{ call }) {
+        },
+        *delArticle({ payload },{ call }) {
             const { article, callback } = payload
-            const { success, message: errMsg } = yield call(deleteArticle, article.id);
-            if (success){
-              message.success(errMsg)
-              if(callback && typeof callback === 'function'){
-                callback();
-              }
+            const { success, message: errMsg } = yield call(deleteArticle, article.id)
+            if (success) {
+                message.success(errMsg)
+                if(callback && typeof callback === 'function') {
+                    callback()
+                }
             }else{
-              message.error(errMsg)
+                message.error(errMsg)
             }
-          }
-      },
-      reducers: {
+        }
+    },
+    reducers: {
         setArticleList(state, { payload }) {
             const { total, rows } = payload
             return {
@@ -87,6 +87,6 @@ export type ArticleModelType = {
                 articleList: rows
             }
         }
-      }
-  }
-  export default ArticleModel;
+    }
+}
+export default ArticleModel

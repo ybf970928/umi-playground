@@ -34,14 +34,20 @@
                 component: './Welcome',
               },
               {
-                name: '商品列表',
+                name: '内容管理',
                 icon: 'table',
-                path: '/list',
-                component: './TableList',
+                path: '/content',
+                routes: [
+                  {
+                    name: '商品列表',
+                    path: '/content/list',
+                    component: './TableList',
+                  },
+                ],
               },
               {
                 name: '测试路由',
-                icon: 'table',
+                icon: 'warning',
                 path: '/page',
                 routes: [
                   {
@@ -55,8 +61,8 @@
                     name: '子路由2',
                     icon: 'smile',
                     component: './TestPage2',
-                  }
-                ]
+                  },
+                ],
               },
               {
                 component: './404',
