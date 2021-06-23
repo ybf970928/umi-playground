@@ -1,4 +1,4 @@
-import request from '@/utils/request';
+import request from '@/utils/request'
 
 export type LoginParamsType = {
   userName: string;
@@ -6,8 +6,8 @@ export type LoginParamsType = {
 };
 
 export async function accountLogin(params: LoginParamsType) {
-  return request('/lejuAdmin/index/login', {
-    method: 'POST',
-    data: params,
-  });
+    return request('/lejuAdmin/index/login', {
+        method: 'POST',
+        data: params
+    })
 }

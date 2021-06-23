@@ -1,22 +1,22 @@
-import  React from 'react';
-import { connect } from 'umi';
-import type { CurrentUser } from '@/models/user';
-import type { ConnectState } from '@/models/connect';
-import { PageContainer } from '@ant-design/pro-layout';
+import React from 'react'
+import { connect } from 'umi'
+import type { CurrentUser } from '@/models/user'
+import type { ConnectState } from '@/models/connect'
+import { PageContainer } from '@ant-design/pro-layout'
 
 type UserInfo = {
     userInfo?: CurrentUser;
   }
 
- const Test1: React.FC = (props) => {
-     return (
-         <>
-         <div>我是父组件</div>
-         {props.children}
-         </>
-     )
- } 
- const Test2: React.FC = () => {
+const Test1: React.FC = (props) => {
+    return (
+        <>
+            <div>我是父组件</div>
+            {props.children}
+        </>
+    )
+} 
+const Test2: React.FC = () => {
     return (
         <div>我是子组件</div>
     )
@@ -31,5 +31,5 @@ const TestPage1: React.FC<UserInfo> = () => {
     )
 }
 
-export default connect(({user}: ConnectState) => ({
-    userInfo: user.currentUser}))(TestPage1)
+export default connect(({ user }: ConnectState) => ({
+    userInfo: user.currentUser }))(TestPage1)
