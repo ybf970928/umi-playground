@@ -62,6 +62,12 @@
                     icon: 'smile',
                     component: './TestPage2',
                   },
+                  {
+                    path: '/page/UseMemo',
+                    name: '测试Memo',
+                    icon: 'smile',
+                    component: './UseMemo',
+                  }
                 ],
               },
               {

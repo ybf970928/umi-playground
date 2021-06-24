@@ -5,7 +5,6 @@ module.exports = {
         page: true,
         REACT_APP_ENV: true
     },
-    plugins: ['prettier'],
     rules: {
         indent: ['error', 4], // 4行缩进
         quotes: ['error', 'single'], // 单引号
@@ -39,6 +38,5 @@ module.exports = {
         'no-submodule-imports': ['off', '/@'],
         'no-implicit-dependencies': ['off', ['/@']],
         '@typescript-eslint/no-explicit-any': 'off', // 类型可以使用any  
-        "prettier/prettier": "error"
     }
 }
