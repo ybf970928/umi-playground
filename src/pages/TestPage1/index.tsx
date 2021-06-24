@@ -3,6 +3,7 @@ import { connect } from 'umi'
 import type { CurrentUser } from '@/models/user'
 import type { ConnectState } from '@/models/connect'
 import { PageContainer } from '@ant-design/pro-layout'
+import { history } from 'umi'
 
 type UserInfo = {
     userInfo?: CurrentUser;
@@ -18,7 +19,7 @@ const Test1: React.FC = (props) => {
 } 
 const Test2: React.FC = () => {
     return (
-        <div>我是子组件</div>
+        <div onClick={() => { history.push('/') }} style={{ cursor: 'pointer' }}>跳转首页</div>
     )
 } 
 const TestPage1: React.FC<UserInfo> = () => {

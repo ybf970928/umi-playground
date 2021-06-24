@@ -8,7 +8,7 @@ import { message } from 'antd'
 import { removeToken, setToken } from '@/utils/auth'
 
 export type StateType = {
-  code?: 0 | 1 | 2;
+  code?: number;
   data?: any;
   message?: string;
   success?: boolean
@@ -30,7 +30,6 @@ export type LoginModelType = {
 const Model: LoginModelType = {
     namespace: 'login',
     state: {},
-
     effects: {
         *login({ payload }, { call, put }) {
             const response = yield call(accountLogin, payload)

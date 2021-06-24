@@ -1,7 +1,8 @@
 /** Request 网络请求工具 更详细的 api 文档: https://github.com/umijs/umi-request */
 import { extend } from 'umi-request'
 import { notification } from 'antd'
-import { getToken } from './auth'
+import { getToken, removeToken } from './auth'
+import { history } from 'umi'
 
 export const codeMessage: Record<number, string> = {
     0: '操作失败',
@@ -53,9 +54,6 @@ const errorHandler = (error: { response: Response }): Response => {
  * @zh-CN 配置request请求时的默认参数
  */
 const request = extend({
-    // headers: {
-    //   'Token': getToken() as string
-    // },
     timeout: 6000,
     errorHandler, // default error handling
     credentials: 'include' // Does the default request bring cookies
@@ -78,14 +76,17 @@ request.interceptors.request.use((url: string, options: RequestInit) => {
     }
 })
 
-request.interceptors.response.use((response: Response) => {
-    const code = response.status
-    const { status, url } = response
-    if (code < 200 || code > 300) {
+request.interceptors.response.use(async(response: Response) => {
+    const { status, url, code, message, success } = await response.clone().json()
+    if (!success && code === 20001) {
         notification.error({
-            message: `Request error ${status}: ${url}`,
+            message: `Request error ${status}: ${url} 返回信息: ${message}`,
             description: codeMessage[response.status] || response.statusText
         })
+        history.replace({
+            pathname: '/user/login'
+        })
+        removeToken()
     } 
     return response
 })
