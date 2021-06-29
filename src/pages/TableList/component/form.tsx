@@ -37,13 +37,15 @@ const ArticleForm: React.FC<FormType> = ({ isShow, editId, setIsShow, refresh, d
         refresh()
     }
     const handleOk = () => {
-        const v = form.getFieldsValue()
-        dispatch({
-            type: 'Article/saveArticle',
-            payload: {
-                article: { ...modelForm ,...v, isShow: v.isShow ? 1 : 0 },
-                callback: initForm
-            }
+        form.validateFields().then(() => {
+            const v = form.getFieldsValue()
+            dispatch({
+                type: 'Article/saveArticle',
+                payload: {
+                    article: { ...modelForm ,...v, isShow: v.isShow ? 1 : 0 },
+                    callback: initForm
+                }
+            })
         })
     }
     const handleCancel = () => {

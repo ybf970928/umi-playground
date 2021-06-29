@@ -78,7 +78,7 @@ request.interceptors.request.use((url: string, options: RequestInit) => {
 
 request.interceptors.response.use(async(response: Response) => {
     const { status, url, code, message, success } = await response.clone().json()
-    if (!success && code === 20001) {
+    if (!success && code === 20002) {
         notification.error({
             message: `Request error ${status}: ${url} 返回信息: ${message}`,
             description: codeMessage[response.status] || response.statusText

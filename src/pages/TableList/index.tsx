@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Button, Card, Col, Form, Input, Row, Space, Table, Popconfirm, Alert } from 'antd'
 import type { Dispatch } from 'umi'
 import type { ArticleType } from './model'
@@ -27,31 +27,28 @@ export type PropsType = {
 };
 
 const TableList: React.FC<PropsType> = ({ articleList, total, dispatch, loading }) => {
+    const [form] = Form.useForm()
     const [params, setParams] = useState({})
     const [current, setCurrent] = useState<number>(1)
     const [pageSize,setPageSize] = useState<number>(5)
     const [isShow, setIsShow] = useState<boolean>(false)
     const [editId, setEditId] = useState<string>('')
-    const [checkedList, setCheckedList] = useState<number>(0)
-
-    const refreshList = () => {
-        setCurrent(1)
-        setPageSize(5)
-    }
+    const [checkedList, setCheckedList] = useState<ArticleType[]>([])
+    const refreshList = useCallback(() => {
+        dispatch({
+            type: 'Article/fetchArticleList',
+            payload: {
+                start: current,
+                limit: pageSize,
+                params
+            }
+        })
+    }, [current, pageSize, params, dispatch])
+    
     useEffect(() => {
-        const initList = () => {
-            dispatch({
-                type: 'Article/fetchArticleList',
-                payload: {
-                    start: current,
-                    limit: pageSize,
-                    params
-                }
-            })
-        }
-        initList()
-    }, [current, dispatch, pageSize, params])
-    const [form] = Form.useForm()
+        refreshList()
+    }, [current, pageSize, params, refreshList])
+    
     const handleSubmit = (values: {title?: string, author?: string}) => {
         const useParams = pickBy({ ...values })
         setParams({ ...useParams })
@@ -79,7 +76,7 @@ const TableList: React.FC<PropsType> = ({ articleList, total, dispatch, loading 
     const rowSelection = {
         onChange: (selectedRowKeys: React.Key[], selectedRows: ArticleType[]) => {
             // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-            setCheckedList(selectedRows.length)
+            setCheckedList(selectedRows)
         }
     }
     const colums = [
@@ -154,7 +151,7 @@ const TableList: React.FC<PropsType> = ({ articleList, total, dispatch, loading 
                 <div className={styles['table-list-toolbar']}>
                     <Button onClick={handleAdd} type="primary">新增</Button>
                 </div>
-                { checkedList > 0 && <Alert message={`已选择 ${checkedList} 项`} type="info" style={{ marginBottom: '20px' }}/>} 
+                { checkedList.length > 0 && <Alert message={`已选择 ${checkedList.length} 项`} type="info" style={{ marginBottom: '20px' }}/>} 
                 <Table columns={colums} dataSource={articleList} rowKey={'id'} loading={loading}
                     pagination={{ total, current, pageSize, onChange(v) {
                         setCurrent(v)
