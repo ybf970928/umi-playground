@@ -43,6 +43,11 @@
                     path: '/content/list',
                     component: './TableList',
                   },
+                  {
+                    name: '商品管理',
+                    path: '/content/material',
+                    component: './Material',
+                  }
                 ],
               },
               {
