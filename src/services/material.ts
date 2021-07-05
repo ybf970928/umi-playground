@@ -19,3 +19,11 @@ export async function materialList({ start, limit, params }: MaterialSearchType)
         data: params
     })
 }
+
+// 更改发布状态
+export async function switchPublishStatus(params: {id: string, status: number}) {
+    return request('/lejuAdmin/product/switchPublishStatus', {
+        method: 'post',
+        data: params
+    })
+}

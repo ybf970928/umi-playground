@@ -26,6 +26,12 @@ export const codeMessage: Record<number, string> = {
     504: '网关超时。'
 }
 
+const errorMaps = {
+    20001: () => notification.error({
+        message: '数据错误'
+    })
+}
+
 /**
  * @zh-CN 异常处理程序
  * @en-US Exception handler
@@ -80,14 +86,17 @@ request.interceptors.response.use(async(response: Response) => {
     const { status, url, code, message, success } = await response.clone().json()
     if (!success && code === 20002) {
         notification.error({
-            message: `Request error ${status}: ${url} 返回信息: ${message}`,
-            description: codeMessage[response.status] || response.statusText
+            message: `Request error ${status}: ${url} 返回信息: ${message}`
         })
         history.replace({
             pathname: '/user/login'
         })
         removeToken()
     } 
+    if (!success && code === 20001) {
+        errorMaps[code]()
+    }
+
     return response
 })
 export default request

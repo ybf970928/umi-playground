@@ -1,5 +1,6 @@
 import type { Effect, Reducer } from '@/.umi/plugin-dva/connect'
-import { materialList } from '@/services/material'
+import { materialList, switchPublishStatus } from '@/services/material'
+import { message } from 'antd'
 
 export type MaterialType = {
     id?: string;
@@ -10,7 +11,10 @@ export type MaterialType = {
     pic?: string;
     price?: number;
     productCategoryName?: string;
-    albumPics?: string
+    albumPics?: string;
+    productCategoryId?: string;
+    status?: number;
+    brandId?: string
 }
 
 export type MaterialState = {
@@ -22,10 +26,11 @@ export type MaterialModelType = {
     namespace: string;
     state: MaterialState;
     effects: {
-      fetchMaterialList: Effect
+      fetchMaterialList: Effect,
+      switchPublishStatus: Effect
     },
     reducers: {
-        setMaterialList: Reducer<MaterialState>
+        setMaterialList: Reducer<MaterialState>,
     }
   }
 
@@ -43,6 +48,12 @@ const MaterialModel: MaterialModelType = {
                     type: 'setMaterialList',
                     payload: data
                 })
+            }
+        },
+        *switchPublishStatus({ payload }, { call }) {
+            const { success } = yield call(switchPublishStatus, payload)
+            if (!success) {
+                message.error('上架失败')
             }
         }
     },
